@@ -10,6 +10,7 @@
         <button id="startRecording">Start recording</button>
         <button id="stopRecording" disabled>Stop recording</button>
     </p>
+    <p id="p1">Press record to start.</p>
 </body>
 <script>
     navigator
@@ -42,6 +43,7 @@
             contentType: false
         }).done(function(data) {
             console.log(data);
+            document.getElementById("p1").innerHTML = data;
         });
     }
 

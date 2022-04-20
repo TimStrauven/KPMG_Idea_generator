@@ -3,6 +3,7 @@ import uuid
 from flask import Flask, flash, request, redirect
 import speech_recognition as sr
 import subprocess
+from openai_link import openai_completion
 
 
 UPLOAD_FOLDER = './data'
@@ -46,8 +47,8 @@ def save_record():
 
     os.remove(full_file_name)
     os.remove(full_name_wav)
-    print(text)
-    return text
+    answer = openai_completion(text, 200)
+    return answer
 
 if __name__ == '__main__':
     app.run()

@@ -1,4 +1,5 @@
 import os
+from secrets import choice
 import openai
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -6,12 +7,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def openai_completion(prompt, max_tokens):
     answer = openai.Completion.create(
         engine="text-davinci-002",
-        prompt="list 5 animals",
-        max_tokens=30
+        prompt=prompt,
+        max_tokens=max_tokens
     )
-    answers = []
-    for i in range(len(answer.choices)):
-        answers.append(answer.choices[i].text)
-    return answers
-
-print(openai_completion("list 5 animals", 10))
+    return answer.choices[0].text

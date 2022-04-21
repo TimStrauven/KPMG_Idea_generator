@@ -47,5 +47,3 @@ def create_sticky(text):
     """create a sticky on miro taking the last position into account"""
     max_x, max_y = get_last_sticky_pos()
     sticky_onto_miro(text, max_x + 108, max_y)
-
-

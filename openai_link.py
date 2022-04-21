@@ -3,7 +3,7 @@ import openai
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-def openai_completion(prompt, max_tokens) -> str:
+def openai_completion(prompt: str, max_tokens: int) -> str:
     """
     Asks openai text-davinci-002 model for completion
     and returns the text string of the first choice

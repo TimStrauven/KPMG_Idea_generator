@@ -11,7 +11,7 @@ headers = {
     "Authorization": f"Bearer {key}",
 }
 
-def sticky_onto_miro(text, x, y) -> None:
+def _sticky_onto_miro(text: str, x: int, y: int) -> None:
     """create a sticky on miro"""
     payload = {
         "type": "sticker",
@@ -43,7 +43,7 @@ def get_stickies_text() -> list:
         text.append(this_text)
     return text
 
-def create_sticky(text):
+def create_sticky(text: str) -> None:
     """create a sticky on miro taking the last position into account"""
     max_x, max_y = get_last_sticky_pos()
-    sticky_onto_miro(text, max_x + 108, max_y)
+    _sticky_onto_miro(text, max_x + 108, max_y)

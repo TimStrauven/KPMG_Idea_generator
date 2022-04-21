@@ -18,7 +18,7 @@ def root():
 
 
 @app.route('/save-record', methods=['POST'])
-def save_record():
+def save_record() -> str:
     # check if the post request has the file part
     if 'file' not in request.files:
         flash('No file part')

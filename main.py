@@ -4,7 +4,7 @@ from flask import Flask, flash, request, redirect
 import speech_recognition as sr
 import subprocess
 from openai_link import openai_completion
-
+import miro.miro_conn as miro_conn
 
 UPLOAD_FOLDER = './data'
 
@@ -47,7 +47,12 @@ def save_record():
 
     os.remove(full_file_name)
     os.remove(full_name_wav)
-    answer = openai_completion(text, 200)
+    exist_stickies = miro_conn.get_stickies_text()
+    for sticky in exist_stickies:
+        text = f"{text}, example:'{sticky}'"
+
+    answer = openai_completion(text, 2000)
+    miro_conn.create_sticky(answer)
     return answer
 
 if __name__ == '__main__':

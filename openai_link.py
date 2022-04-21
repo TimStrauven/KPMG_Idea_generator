@@ -10,4 +10,5 @@ def openai_completion(prompt, max_tokens):
         prompt=prompt,
         max_tokens=max_tokens
     )
+    print(answer)
     return answer.choices[0].text

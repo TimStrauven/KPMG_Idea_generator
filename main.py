@@ -16,6 +16,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def root():
     return app.send_static_file('index.html')
 
+@app.route('/miroweb')
+def miroweb():
+    return app.send_static_file('miro_web_plugin.html')
 
 @app.route('/save-record', methods=['POST'])
 def save_record() -> str:

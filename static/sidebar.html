@@ -2,11 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://miro.com/app/static/sdk.1.1.js"></script>
 
     <style>
       .rtb-sidebar-caption {
-        font-size: 14px;
+        font-size: 22px;
         font-weight: bold;
         color: rgba(0, 0, 0, 0.8);
         padding: 24px 0 0 24px;
@@ -32,8 +33,40 @@
   </head>
 
   <body>
-    <div class="rtb-sidebar-caption">OpenAI Plugin</div>
-    <div class="tip" id="tip">Select widget to see its text</div>
-    <textarea id="widget-text" readonly></textarea>
+    <div>
+        <div style="float: left">
+            <img src="icon.svg" alt="my icon" width="30" height="30">
+        </div>
+        <div class="rtb-sidebar-caption">OpenAI Plugin</div>
+    </div>
+    <div class="tip" id="tip">Creates new ideas from GPT-3!</div>
+    <div class="rtb-sidebar-caption">
+        <input class="input" id="userquestion" type="text" placeholder="Please enter your question..."/>
+    </div>
+    <div class="rtb-sidebar-caption">
+        <button id="submitbtn" class="button button-primary">GO!</button>
+    </div>
+    <p id="p1">Please enter a question in the textbox above.</p>
   </body>
+  <script>
+    function sendData() {
+        let input = document.getElementById("userquestion").value;
+        document.getElementById("p1").innerHTML = "processing...";
+        var form = new FormData();
+        form.append('question', input);
+        $.ajax({
+            type: 'POST',
+            url: '/str-to-gpt',
+            data: form,
+            cache: false,
+            processData: false,
+            contentType: false
+        }).done(function(data) {
+            document.getElementById("p1").innerHTML = data;
+        });
+    }
+    document
+        .getElementById("submitbtn")
+        .addEventListener("click", () => sendData());
+  </script>
 </html>

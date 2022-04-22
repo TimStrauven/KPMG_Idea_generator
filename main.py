@@ -24,6 +24,15 @@ def miroweb():
 def miroweb_sidebar():
     return app.send_static_file('sidebar.html')
 
+@app.route('/miroweb/icon.svg')
+def get_icon():
+    return app.send_static_file('icon.svg')
+
+@app.route('/str-to-gpt', methods=['POST'])
+def str_to_gpt_post() -> str:
+    question = request.form['question']
+    answer = text_to_return(question)
+    return answer
 
 @app.route('/save-record', methods=['POST'])
 def save_record() -> str:
@@ -59,6 +68,10 @@ def save_record() -> str:
     os.remove(full_file_name)
     os.remove(full_name_wav)
 
+    answer = text_to_return(text)
+    return answer
+
+def text_to_return(text: str) -> str:
     # Get the text in list from all sticky notes on the board
     # and use it as examples for GPT-3
     exist_stickies = miro_conn.get_stickies_text()

@@ -20,6 +20,11 @@ def root():
 def miroweb():
     return app.send_static_file('miro_web_plugin.html')
 
+@app.route('/miroweb/sidebar.html')
+def miroweb_sidebar():
+    return app.send_static_file('sidebar.html')
+
+
 @app.route('/save-record', methods=['POST'])
 def save_record() -> str:
     # check if the post request has the file part

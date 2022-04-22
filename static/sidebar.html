@@ -13,6 +13,12 @@
         padding: 24px 0 0 24px;
       }
 
+      .normal-text {
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.8);
+        padding: 24px 0 0 24px;
+      }
+
       textarea {
         display: block;
         height: calc(100% - 110px);
@@ -39,21 +45,38 @@
         </div>
         <div class="rtb-sidebar-caption">OpenAI Plugin</div>
     </div>
-    <div class="tip" id="tip">Creates new ideas from GPT-3!</div>
+    <div class="tip" id="tip">Serves fresh ideas from GPT-3!</div>
     <div class="rtb-sidebar-caption">
         <input class="input" id="userquestion" type="text" placeholder="Please enter your question..."/>
+    </div>
+    <div class="normal-text">
+        <label class="radiobutton">
+            <div>
+                <input type="radio" value="0" name="temp"><span>Conservative</span>
+            </div>
+            <div>
+                <input type="radio"value="0.5" name="temp" checked><span>Normal</span>
+            </div>
+            <div>
+                <input type="radio" value="0.9" name="temp"><span>Crazy</span>
+            </div>
+        </label>
     </div>
     <div class="rtb-sidebar-caption">
         <button id="submitbtn" class="button button-primary">GO!</button>
     </div>
-    <p id="p1">Please enter a question in the textbox above.</p>
+    <div class="normal-text">
+        <p id="p1">.</p>
+    </div>
   </body>
   <script>
     function sendData() {
-        let input = document.getElementById("userquestion").value;
         document.getElementById("p1").innerHTML = "processing...";
-        var form = new FormData();
+        let input = document.getElementById("userquestion").value;
+        let temp = document.querySelector(`input[type="radio"][name=temp]:checked`).value;
+        let form = new FormData();
         form.append('question', input);
+        form.append('temp', temp);
         $.ajax({
             type: 'POST',
             url: '/str-to-gpt',

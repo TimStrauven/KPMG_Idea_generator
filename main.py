@@ -31,7 +31,9 @@ def get_icon():
 @app.route('/str-to-gpt', methods=['POST'])
 def str_to_gpt_post() -> str:
     question = request.form['question']
-    answer = text_to_return(question)
+    temp = float(request.form['temp'])
+    print(temp)
+    answer = text_to_return(question, temp)
     return answer
 
 @app.route('/save-record', methods=['POST'])
@@ -68,10 +70,10 @@ def save_record() -> str:
     os.remove(full_file_name)
     os.remove(full_name_wav)
 
-    answer = text_to_return(text)
+    answer = text_to_return(text, 0.5)
     return answer
 
-def text_to_return(text: str) -> str:
+def text_to_return(text: str, temp: float) -> str:
     # Get the text in list from all sticky notes on the board
     # and use it as examples for GPT-3
     exist_stickies = miro_conn.get_stickies_text()
@@ -79,7 +81,7 @@ def text_to_return(text: str) -> str:
         text = f"{text}, example:'{sticky}'"
 
     # Get the text from openai
-    answer = openai_completion(text, 2000)
+    answer = openai_completion(text, 200, temp)
     # add new sticky note on board
     miro_conn.create_sticky(answer)
     # return the answer to display on the web page

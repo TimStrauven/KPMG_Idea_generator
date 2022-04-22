@@ -1,4 +1,5 @@
 import os
+import random
 import requests
 
 key = os.getenv("MIRO_DEV_API_KEY")
@@ -9,7 +10,7 @@ headers = {
     "Accept": "application/json",
     "Content-Type": "application/json",
     "Authorization": f"Bearer {key}",
-}
+    }
 
 def _sticky_onto_miro(text: str, x: int, y: int) -> None:
     """create a sticky on miro"""
@@ -35,13 +36,21 @@ def get_last_sticky_pos() -> tuple:
     return max_X, max_Y
 
 def get_stickies_text() -> list:
-    """get all stickies' text"""
+    """get the text from 2 random sticky notes on the board and return them in a list"""
     response = requests.request("GET", url, headers=headers)
     text = []
     for widget in response.json()["data"]:
         this_text = widget["text"].replace("<p>", "").replace("</p>", "")
         text.append(this_text)
-    return text
+    # return random list if there are more than 2 stickies
+    if len(text) > 2:
+        final_text = []
+        random_ints = random.sample(range(0, len(text)), 2)
+        for i in random_ints:
+            final_text.append(text[i])
+        return final_text
+    else:
+        return text
 
 def create_sticky(text: str) -> None:
     """create a sticky on miro taking the last position into account"""

@@ -14,7 +14,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def root():
-    return app.send_static_file('index.html')
+    return app.send_static_file('sidebar.html')
 
 @app.route('/miroweb')
 def miroweb():
@@ -43,6 +43,7 @@ def save_record() -> str:
         flash('No file part')
         return redirect(request.url)
     file = request.files['file']
+    temp = float(request.form['temp'])
     # if user does not select file, browser also
     # submit an empty part without filename
     if file.filename == '':
@@ -70,7 +71,7 @@ def save_record() -> str:
     os.remove(full_file_name)
     os.remove(full_name_wav)
 
-    answer = text_to_return(text, 0.5)
+    answer = text_to_return(text, temp)
     return answer
 
 def text_to_return(text: str, temp: float) -> str:

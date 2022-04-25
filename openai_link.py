@@ -1,0 +1,21 @@
+import os
+import openai
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+def openai_completion(prompt: str, max_tokens: int, temp: float) -> str:
+    """
+    Asks openai text-davinci-002 model for completion
+    and returns the text string of the first choice
+    """
+    print(prompt)
+    answer = openai.Completion.create(
+        engine="text-davinci-002",
+        temperature=temp,
+        prompt=prompt,
+        max_tokens=max_tokens
+    )
+    print(answer)
+    cleananswer = answer.choices[0].text
+    cleananswer = cleananswer.replace("\n", "")
+    return cleananswer

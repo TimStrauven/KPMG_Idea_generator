@@ -47,6 +47,12 @@
     </div>
     <div class="tip" id="tip">Serves fresh ideas from GPT-3!</div>
     <div class="rtb-sidebar-caption">
+      <p>
+        <button id="startRecording">Start recording</button>
+        <button id="stopRecording" disabled>Stop recording</button>
+      </p>
+    </div>  
+    <div class="rtb-sidebar-caption">
         <input class="input" id="userquestion" type="text" placeholder="Please enter your question..."/>
     </div>
     <div class="normal-text">
@@ -66,12 +72,12 @@
         <button id="submitbtn" class="button button-primary">GO!</button>
     </div>
     <div class="normal-text">
-        <p id="p1">.</p>
+        <p id="pOutput">.</p>
     </div>
   </body>
   <script>
     function sendData() {
-        document.getElementById("p1").innerHTML = "processing...";
+        document.getElementById("pOutput").innerHTML = "processing...";
         let input = document.getElementById("userquestion").value;
         let temp = document.querySelector(`input[type="radio"][name=temp]:checked`).value;
         let form = new FormData();
@@ -85,11 +91,63 @@
             processData: false,
             contentType: false
         }).done(function(data) {
-            document.getElementById("p1").innerHTML = data;
+            document.getElementById("pOutput").innerHTML = data;
         });
     }
     document
         .getElementById("submitbtn")
         .addEventListener("click", () => sendData());
+    
+    navigator
+      .mediaDevices
+      .getUserMedia({audio: true})
+      .then(stream => { handlerFunction(stream) });
+
+    function handlerFunction(stream) {
+        rec = new MediaRecorder(stream);
+        rec.ondataavailable = e => {
+            audioChunks.push(e.data);
+            if (rec.state == "inactive") {
+                let blob = new Blob(audioChunks, {type: 'audio/mpeg-3'});
+                sendAudioData(blob);
+            }
+        }
+    }
+
+    function sendAudioData(data) {
+      document.getElementById("pOutput").innerHTML = "processing...";
+      var form = new FormData();
+      form.append('file', data, 'data.mp3');
+      form.append('title', 'data.mp3');
+      let temp = document.querySelector(`input[type="radio"][name=temp]:checked`).value;
+      form.append('temp', temp);
+      //Chrome inspector shows that the post data includes a file and a title.
+      $.ajax({
+          type: 'POST',
+          url: '/save-record',
+          data: form,
+          cache: false,
+          processData: false,
+          contentType: false
+      }).done(function(data) {
+          console.log(data);
+          document.getElementById("pOutput").innerHTML = data;
+      });
+    }
+
+    startRecording.onclick = e => {
+        console.log('Recording are started..');
+        startRecording.disabled = true;
+        stopRecording.disabled = false;
+        audioChunks = [];
+        rec.start();
+    };
+
+    stopRecording.onclick = e => {
+        console.log("Recording are stopped.");
+        startRecording.disabled = false;
+        stopRecording.disabled = true;
+        rec.stop();
+    };
   </script>
 </html>

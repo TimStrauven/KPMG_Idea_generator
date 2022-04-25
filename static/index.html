@@ -24,12 +24,12 @@
             audioChunks.push(e.data);
             if (rec.state == "inactive") {
                 let blob = new Blob(audioChunks, {type: 'audio/mpeg-3'});
-                sendData(blob);
+                sendAudioData(blob);
             }
         }
     }
 
-    function sendData(data) {
+    function sendAudioData(data) {
         var form = new FormData();
         form.append('file', data, 'data.mp3');
         form.append('title', 'data.mp3');

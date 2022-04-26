@@ -41,6 +41,7 @@ def get_stickies_text() -> list:
     text = []
     for widget in response.json()["data"]:
         this_text = widget["text"].replace("<p>", "").replace("</p>", "")
+        this_text = this_text.replace(".", "")
         text.append(this_text)
     # return random list if there are more than 2 stickies
     if len(text) > 2:

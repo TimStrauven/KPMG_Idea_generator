@@ -13,6 +13,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
+@app.route('/miroweb/sidebar.html')
 def root():
     return app.send_static_file('sidebar.html')
 
@@ -20,18 +21,15 @@ def root():
 def miroweb():
     return app.send_static_file('miro_web_plugin.html')
 
-@app.route('/miroweb/sidebar.html')
-def miroweb_sidebar():
-    return app.send_static_file('sidebar.html')
-
 @app.route('/miroweb/icon.svg')
+@app.route('/icon.svg')
 def get_icon():
     return app.send_static_file('icon.svg')
 
 @app.route('/str-to-gpt', methods=['POST'])
 def str_to_gpt_post() -> str:
     question = request.form['question']
-    temp = float(request.form['temp'])
+    temp = int(request.form['temp'])
     print(temp)
     answer = text_to_return(question, temp)
     return answer
@@ -43,7 +41,7 @@ def save_record() -> str:
         flash('No file part')
         return redirect(request.url)
     file = request.files['file']
-    temp = float(request.form['temp'])
+    temp = int(request.form['temp'])
     # if user does not select file, browser also
     # submit an empty part without filename
     if file.filename == '':
@@ -74,13 +72,19 @@ def save_record() -> str:
     answer = text_to_return(text, temp)
     return answer
 
-def text_to_return(text: str, temp: float) -> str:
+def text_to_return(text: str, temp: int) -> str:
     # Get the text in list from all sticky notes on the board
     # and use it as examples for GPT-3
     exist_stickies = miro_conn.get_stickies_text()
+    if temp == 0:
+        text = f"Give a conservative new idea for this topic:{text}"
+    elif temp == 1:
+        text = f"Give an inventive and fresh new idea for this topic:{text}"
+    elif temp == 2:
+        text = f"Give a completely crazy idea for this topic:{text}"
     for sticky in exist_stickies:
-        text = f"{text}, example:'{sticky}'"
-
+        text = f'{text}. Example:{sticky}'
+    text = f'{text}.'
     # Get the text from openai
     answer = openai_completion(text, 200, temp)
     # add new sticky note on board

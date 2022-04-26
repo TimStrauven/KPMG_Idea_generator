@@ -7,16 +7,24 @@
 
     <style>
       .rtb-sidebar-caption {
-        font-size: 22px;
+        font-size: 28px;
         font-weight: bold;
         color: rgba(0, 0, 0, 0.8);
         padding: 24px 0 0 24px;
       }
-
+      
       .normal-text {
         font-size: 16px;
         color: rgba(0, 0, 0, 0.8);
         padding: 24px 0 0 24px;
+      }
+
+      body {
+        background-image: linear-gradient(135deg, rgba(0,171,255,1) 0%, rgba(46,64,151,1) 7%, rgba(16,0,128,1) 26%);
+        background-size: 100% 400%;
+        background-position: 0% 0%;
+        background-repeat: no-repeat;
+        background-color: rgba(0,0,0,0);
       }
 
       textarea {
@@ -30,7 +38,15 @@
         text-align: left;
         font-size: 22px;
       }
+      .radiobutton {
+        color : white;
+      }
 
+      .open-ai-title {
+        color : white;
+        background-color: orangered;
+        border-radius: 5px;
+      }
       .tip {
         color: #cccccc;
         margin: 20px 0 0 26px;
@@ -41,9 +57,9 @@
   <body>
     <div>
         <div style="float: left">
-            <img src="icon.svg" alt="my icon" width="30" height="30">
+            <img src="icon.svg" alt="my icon" width="100" height="50">
         </div>
-        <div class="rtb-sidebar-caption">OpenAI Plugin</div>
+        <div class="rtb-sidebar-caption"><span class="open-ai-title">OpenAI Plugin</span></div>
     </div>
     <div class="tip" id="tip">Serves fresh ideas from GPT-3!</div>
     <div class="rtb-sidebar-caption">
@@ -61,10 +77,10 @@
                 <input type="radio" value="0" name="temp"><span>Conservative</span>
             </div>
             <div>
-                <input type="radio"value="1" name="temp" checked><span>Normal</span>
+                <input type="radio"value="0.5" name="temp" checked><span>Normal</span>
             </div>
             <div>
-                <input type="radio" value="2" name="temp"><span>Crazy</span>
+                <input type="radio" value="0.9" name="temp"><span>Crazy</span>
             </div>
         </label>
     </div>

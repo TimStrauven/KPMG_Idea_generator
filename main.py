@@ -3,7 +3,8 @@ import uuid
 from flask import Flask, flash, request, redirect
 import speech_recognition as sr
 import subprocess
-from openai_link import openai_completion
+from utils.idea_generator import OpenAI_Generator
+from utils.preprocessing import Preprocessing
 import miro.miro_conn as miro_conn
 
 UPLOAD_FOLDER = './data'
@@ -75,20 +76,21 @@ def save_record() -> str:
 def text_to_return(text: str, temp: int) -> str:
     # Get the text in list from all sticky notes on the board
     # and use it as examples for GPT-3
-    exist_stickies = miro_conn.get_stickies_text()
+    preprocessor = Preprocessing(text)
+
     if temp == 0:
-        text = f"Give a conservative new idea for this topic:{text}"
+        text = preprocessor.process_crazy_text()
     elif temp == 1:
-        text = f"Give an inventive and fresh new idea for this topic:{text}"
-    elif temp == 2:
-        text = f"Give a completely crazy idea for this topic:{text}"
-    for sticky in exist_stickies:
-        text = f'{text}. Example:{sticky}'
+        text = preprocessor.process_normal_text()
+
+    # exist_stickies = miro_conn.get_stickies_text()
+    #for sticky in exist_stickies:
+    #    text = f'{text}. Example:{sticky}'
     text = f'{text}.'
     # Get the text from openai
-    answer = openai_completion(text, 200, temp)
+    answer = OpenAI_Generator(text, 1).generate_idea()
     # add new sticky note on board
-    miro_conn.create_sticky(answer)
+    miro_conn.create_sticky(answer[0])
     # return the answer to display on the web page
     return answer
 

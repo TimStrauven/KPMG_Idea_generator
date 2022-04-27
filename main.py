@@ -38,7 +38,7 @@ def get_icon():
 @app.route('/save_facilitator', methods=['POST'])
 def save_facilitator():
     workshop = int(request.form['workshop'])
-    with open('data/facilitator_status.txt', 'w') as f:
+    with open('./data/facilitator_status.txt', 'w') as f:
         f.write(str(workshop))
     return "done"
 
@@ -46,7 +46,7 @@ def save_facilitator():
 def load_user():
     # final version should use push, but js timer is ok for demo
     workshop = 0
-    with open('data/facilitator_status.txt', 'r') as f:
+    with open('./data/facilitator_status.txt', 'r') as f:
         workshop = int(f.read())
     return f"{workshop}"
 

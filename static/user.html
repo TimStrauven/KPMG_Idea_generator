@@ -93,7 +93,7 @@
     </style>
   </head>
 
-  <body>
+  <body onload="loadFunction()">
     <div>
         <div style="float: left">
             <img src="icon.svg" alt="my icon" width="100" height="50">
@@ -101,12 +101,7 @@
         <div class="rtb-sidebar-caption"><span class="open-ai-title">OpenAI</span></div>
     </div>
     <div class="tip" id="tip">From GPT-3 with love!</div>
-    <select onchange="hideshow()" name="workshop" id="my_workshop">
-      <option value="0">No Method</option>
-      <option value="1">How might we "X"</option>
-      <option value="2">Avalanche</option>
-      <option value="3">Worst idea</option>
-  </select>
+
     <div id="hidezone0">
       <div class="rtb-sidebar-caption">
         <p>
@@ -225,29 +220,34 @@
         rec.stop();
     };
 
-    function hideshow() {
-        if (document.getElementById("my_workshop").value == 0) {
-            document.getElementById("hidezone0").style.display = "block";
-            document.getElementById("hidezone1").style.display = "none";
-            document.getElementById("hidezone2").style.display = "none";
-            document.getElementById("hidezone3").style.display = "none";
-        } else if (document.getElementById("my_workshop").value == 1) {
-            document.getElementById("hidezone0").style.display = "none";
-            document.getElementById("hidezone1").style.display = "block";
-            document.getElementById("hidezone2").style.display = "none";
-            document.getElementById("hidezone3").style.display = "none";
-        } else if (document.getElementById("my_workshop").value == 2) {
-            document.getElementById("hidezone0").style.display = "none";
-            document.getElementById("hidezone1").style.display = "none";
-            document.getElementById("hidezone2").style.display = "block";
-            document.getElementById("hidezone3").style.display = "none";
-        } else if (document.getElementById("my_workshop").value == 3) {
-            document.getElementById("hidezone0").style.display = "none";
-            document.getElementById("hidezone1").style.display = "none";
-            document.getElementById("hidezone2").style.display = "none";
-            document.getElementById("hidezone3").style.display = "block";
-        }
-    }
+    function hideDivs(data) {
+      document.getElementById("hidezone0").style.display = "none";
+      document.getElementById("hidezone1").style.display = "none";
+      document.getElementById("hidezone2").style.display = "none";
+      document.getElementById("hidezone3").style.display = "none";
+      if (data == 0) {
+          document.getElementById("hidezone0").style.display = "block";
+      } else if (data == 1) {
+          document.getElementById("hidezone1").style.display = "block";
+      } else if (data == 2) {
+          document.getElementById("hidezone2").style.display = "block";
+      } else if (data == 3) {
+          document.getElementById("hidezone3").style.display = "block";
+      }
+    };
+
+    function loadFunction(){
+      $.ajax({
+            type: 'GET',
+            url: '/loaduser',
+            data: "",
+            cache: false,
+            processData: false,
+            contentType: false
+        }).done(function(data) {
+          hideDivs(parseInt(data));
+        });
+    };
 
   </script>
 </html>

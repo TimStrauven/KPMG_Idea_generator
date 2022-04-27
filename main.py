@@ -14,18 +14,35 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
-@app.route('/miroweb/facilitator.html')
+@app.route('/user.html')
 def root():
+    return app.send_static_file('user.html')
+
+@app.route('/facilitator.html')
+def facilitator():
     return app.send_static_file('facilitator.html')
 
-@app.route('/miroweb')
-def miroweb():
-    return app.send_static_file('miro_web_plugin.html')
+@app.route('/miro_user_plugin.html')
+def miroweb_user():
+    return app.send_static_file('miro_user_plugin.html')
 
-@app.route('/miroweb/icon.svg')
+@app.route('/miro_fac_plugin.html')
+def miroweb_fac():
+    return app.send_static_file('miro_fac_plugin.html')
+
 @app.route('/icon.svg')
 def get_icon():
     return app.send_static_file('icon.svg')
+
+@app.route('/save_facilitator', methods=['GET'])
+def save_facilitator():
+    # add code to save the status from facilitator interface
+    return "0"
+
+@app.route('/loaduser', methods=['GET'])
+def load_user():
+    # add code to read saved data from facilitator interface
+    return "0"
 
 @app.route('/str-to-gpt', methods=['POST'])
 def str_to_gpt_post() -> str:

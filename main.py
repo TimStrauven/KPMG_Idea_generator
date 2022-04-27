@@ -8,10 +8,11 @@ from utils.preprocessing import Preprocessing
 import miro.miro_conn as miro_conn
 
 UPLOAD_FOLDER = './data'
+if os.path.exists('./data') == False:
+    os.mkdir('./data')
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
 
 @app.route('/')
 @app.route('/user.html')
@@ -34,15 +35,20 @@ def miroweb_fac():
 def get_icon():
     return app.send_static_file('icon.svg')
 
-@app.route('/save_facilitator', methods=['GET'])
+@app.route('/save_facilitator', methods=['POST'])
 def save_facilitator():
-    # add code to save the status from facilitator interface
-    return "0"
+    workshop = int(request.form['workshop'])
+    with open('data/facilitator_status.txt', 'w') as f:
+        f.write(str(workshop))
+    return "done"
 
 @app.route('/loaduser', methods=['GET'])
 def load_user():
-    # add code to read saved data from facilitator interface
-    return "0"
+    # final version should use push, but js timer is ok for demo
+    workshop = 0
+    with open('data/facilitator_status.txt', 'r') as f:
+        workshop = int(f.read())
+    return f"{workshop}"
 
 @app.route('/str-to-gpt', methods=['POST'])
 def str_to_gpt_post() -> str:

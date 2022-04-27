@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://miro.com/app/static/sdk.1.1.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=
     , initial-scale=1.0">
@@ -104,11 +106,11 @@
     <div class="tip" id="tip">From GPT-3 with love!</div>
     <div><p>Select the workshop method</p></div>
     <div>
-        <select name="workshop" id="my_workshop">
-            <option value="idea1">How might X do... ?</option>
-            <option value="idea2">Ideas avalanche</option>
-            <option value="idea3">Worst possible idea</option>
-            <option value="idea3">Go wild!</option>
+        <select onchange="saveFac()" name="workshop" id="my_workshop">
+          <option value="0">Go wild!</option>
+          <option value="1">How might X do... ?</option>
+          <option value="2">Ideas avalanche</option>
+          <option value="3">Worst possible idea</option>
         </select>
     </div>
 
@@ -187,6 +189,23 @@
         }).done(function(data) {
             document.getElementById("pOutput").innerHTML = data;
         });
+    }
+
+    function saveFac(){
+      let workshop = document.getElementById("my_workshop").value;
+      let form = new FormData();
+      form.append('workshop', workshop);
+      $.ajax({
+          type: 'POST',
+          url: '/save_facilitator',
+          data: form,
+          cache: false,
+          processData: false,
+          contentType: false
+      }).done(function(data) {
+        console.log(data);
+        document.getElementById("pOutput").innerHTML = data;
+      });
     }
 </script>
 </html>

@@ -14,13 +14,21 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
-@app.route('/miroweb/facilitator.html')
+@app.route('/user.html')
 def root():
+    return app.send_static_file('user.html')
+
+@app.route('/facilitator.html')
+def facilitator():
     return app.send_static_file('facilitator.html')
 
-@app.route('/miroweb')
-def miroweb():
-    return app.send_static_file('miro_web_plugin.html')
+@app.route('/miro_user_plugin.html')
+def miroweb_user():
+    return app.send_static_file('miro_user_plugin.html')
+
+@app.route('/miro_fac_plugin.html')
+def miroweb_fac():
+    return app.send_static_file('miro_fac_plugin.html')
 
 @app.route('/miroweb/icon.svg')
 @app.route('/icon.svg')

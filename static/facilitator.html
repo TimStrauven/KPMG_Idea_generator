@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .rtb-sidebar-caption {
+          font-size: 28px;
+          font-weight: bold;
+          color: rgba(0, 0, 0, 0.8);
+          padding: 24px 0 0 24px;
+        }
+        
+        .normal-text {
+          font-size: 16px;
+          color: rgba(0, 0, 0, 0.8);
+          padding: 24px 0 0 24px;
+        }
+  
+        body {
+          background-image: linear-gradient(135deg, rgba(0,171,255,1) 0%, rgba(46,64,151,1) 7%, rgba(16,0,128,1) 26%);
+          background-size: 100% 400%;
+          background-position: 0% 0%;
+          background-repeat: no-repeat;
+          background-color: rgba(0,0,0,0);
+          font-size: 20px;
+          color : white;
+        }
+  
+        textarea {
+          display: block;
+          height: calc(100% - 110px);
+          margin: 20px 0 0 20px;
+          background-color: white;
+          border-radius: 4px;
+          border: 0;
+          width: calc(100% - 40px);
+          text-align: left;
+          font-size: 22px;
+        }
+        .radiobutton {
+          color : white;
+        }
+  
+        .open-ai-title {
+          color : white;    
+          background-image: linear-gradient(135deg, rgba(255,173,116,1) 0%, rgba(255,126,85,1) 7%, rgba(236,57,0,1) 42%);
+          background-size: auto;
+          background-position: 0% 0%;
+          background-repeat: repeat;
+          background-color: rgba(0,0,0,0);        
+          border-radius: 5px;
+          padding: 5px;
+          margin: left 10px;
+        }
+  
+        .radio {
+          display: inline-flex;
+          overflow: hidden;
+          border-radius: 18px;
+          color :white;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+          background-color: rgb(218, 58, 0);
+        }
+  
+        .radiobutton {
+          display: none;
+        }
+  
+        .radiobutton_label {
+          padding: 8px 14px;
+          font-family: sans-serif;
+          font-size: 1.2em;
+        }
+        
+        #radio_label_right {
+          border-left :rgb(134, 31, 0)
+        }
+  
+        #my_input {
+          font-size: 1.2em;
+        }
+  
+        .radiobutton:checked + .radiobutton_label {
+          background-color: rgb(117, 43, 0);
+        }
+  
+        .tip {
+          color: #cccccc;
+          margin: 20px 0 0 26px;
+        }
+      </style>
+</head>
+<body>
+    <div>
+        <div style="float: left">
+            <img src="icon.svg" alt="my icon" width="100" height="50">
+        </div>
+        <div class="rtb-sidebar-caption"><span class="open-ai-title">OpenAI</span></div>
+    </div>
+    <div class="tip" id="tip">From GPT-3 with love!</div>
+    <div><p>Select the workshop method</p></div>
+    <div>
+        <select name="workshop" id="my_workshop">
+            <option value="idea1">How might X do... ?</option>
+            <option value="idea2">Ideas avalanche</option>
+            <option value="idea3">Worst possible idea</option>
+            <option value="idea3">Go wild!</option>
+        </select>
+    </div>
+
+    <div>General settings:</div>
+
+   
+    <div class="normal-text"> 
+        <div class="radio">
+          <input class="radiobutton" type="radio" value="0.5" name="temp" id="my_radiobutton_1" checked>
+          <label class="radiobutton_label" for="my_radiobutton_1">Normal</label>
+          <input class="radiobutton" type="radio" value="0.9" name="temp" id ="my_radiobutton_2">
+          <label id="radio_label_right" class="radiobutton_label" for="my_radiobutton_2" >  Crazy  </label>
+        </div>
+    </div>
+
+    <div><p>Number of ideas</p></div>
+    <div><input id="setting3" type="number" min="1" max="10"></div>
+
+    <div><input type="submit" value="Submit"></div>
+    
+<!--     <div>
+        <div><p>Settings : </p></div>
+        <div>
+            <input type="checkbox" id="input_participants">
+            <label for="input_participants">Show settings to participant</label>
+        </div> 
+    </div> -->
+
+    <div><p>Who is solving this problem:</p></div>
+    <div>
+        <input type="checkbox" id="my_input_1">
+        <label for="my_input_1">Disney</label>
+    </div>
+    <div>
+        <input type="checkbox" id="my_input_2">
+        <label for="my_input_2">Trump</label>
+    </div>
+    <div>
+        <input type="checkbox" id="my_input_3">
+        <label for="my_input_3">Mother theresa</label>
+    </div>
+    <div><input type="text" id="my_text_input_1" placeholder="Enter free text"></div>
+
+    
+    <div><p>What problem should be solved?</p></div>
+    <div><input type="text"></div>
+
+    <div><p>Define question for Idea Avalanche</p></div>
+    <div><input type="text"></div>
+
+    <div>
+        <div><input type="checkbox"><label for="">Participant cqn select one letter</label></div>
+        <div><input type="checkbox"><label for="">Generate one idea per each letter</label></div>
+        
+    </div>
+   
+    <div><button>Prepare New Question</button></div>
+    <div><button>Print List of Questions</button></div>
+
+</body>
+<script>
+    function sendData() {
+        document.getElementById("pOutput").innerHTML = "processing...";
+        let input = document.getElementById("userquestion").value;
+        let temp = document.querySelector(`input[type="radio"][name=temp]:checked`).value;
+        let form = new FormData();
+        form.append('question', input);
+        form.append('temp', temp);
+        $.ajax({
+            type: 'POST',
+            url: '/str-to-gpt',
+            data: form,
+            cache: false,
+            processData: false,
+            contentType: false
+        }).done(function(data) {
+            document.getElementById("pOutput").innerHTML = data;
+        });
+    }
+</script>
+</html>

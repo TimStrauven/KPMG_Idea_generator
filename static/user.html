@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://miro.com/app/static/sdk.1.1.js"></script>
+
+    <style>
+      .rtb-sidebar-caption {
+        font-size: 28px;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.8);
+        padding: 24px 0 0 24px;
+      }
+      
+      .normal-text {
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.8);
+        padding: 24px 0 0 24px;
+      }
+
+      body {
+        background-image: linear-gradient(135deg, rgba(0,171,255,1) 0%, rgba(46,64,151,1) 7%, rgba(16,0,128,1) 26%);
+        background-size: 100% 400%;
+        background-position: 0% 0%;
+        background-repeat: no-repeat;
+        background-color: rgba(0,0,0,0);
+        font-size: 20px;
+      }
+
+      textarea {
+        display: block;
+        height: calc(100% - 110px);
+        margin: 20px 0 0 20px;
+        background-color: white;
+        border-radius: 4px;
+        border: 0;
+        width: calc(100% - 40px);
+        text-align: left;
+        font-size: 22px;
+      }
+      .radiobutton {
+        color : white;
+      }
+
+      .open-ai-title {
+        color : white;    
+        background-image: linear-gradient(135deg, rgba(255,173,116,1) 0%, rgba(255,126,85,1) 7%, rgba(236,57,0,1) 42%);
+        background-size: auto;
+        background-position: 0% 0%;
+        background-repeat: repeat;
+        background-color: rgba(0,0,0,0);        
+        border-radius: 5px;
+        padding: 5px;
+        margin: left 10px;
+      }
+
+      .radio {
+        display: inline-flex;
+        overflow: hidden;
+        border-radius: 18px;
+        color :white;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+        background-color: rgb(117, 43, 0);
+      }
+
+      .radiobutton {
+        display: none;
+      }
+
+      .radiobutton_label {
+        padding: 8px 14px;
+        font-family: sans-serif;
+        font-size: 1.2em;
+      }
+      
+      #radio_label_right {
+        border-left :rgb(134, 31, 0)
+      }
+
+      #my_input {
+        font-size: 1.2em;
+      }
+
+      .radiobutton:checked + .radiobutton_label {
+        background-color: rgb(218, 58, 0);
+      }
+
+      .tip {
+        color: #cccccc;
+        margin: 20px 0 0 26px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+        <div style="float: left">
+            <img src="icon.svg" alt="my icon" width="100" height="50">
+        </div>
+        <div class="rtb-sidebar-caption"><span class="open-ai-title">OpenAI</span></div>
+    </div>
+    <div class="tip" id="tip">From GPT-3 with love!</div>
+    <select onchange="hideshow()" name="workshop" id="my_workshop">
+      <option value="0">No Method</option>
+      <option value="1">How might we "X"</option>
+      <option value="2">Avalanche</option>
+      <option value="3">Worst idea</option>
+  </select>
+    <div id="hidezone0">
+      <div class="rtb-sidebar-caption">
+        <p>
+          <button id="startRecording">Start recording</button>
+          <button id="stopRecording" disabled>Stop recording</button>
+        </p>
+      </div>  
+      <div id="my_imput_1" class="rtb-sidebar-caption">
+          <input class="input" id="userquestion" type="text" placeholder="Please enter your question..."/>
+      </div>
+      <div class="normal-text"> 
+        <div class="radio">
+          <input class="radiobutton" type="radio" value="0.5" name="temp" id="my_radiobutton_1" checked>
+          <label class="radiobutton_label" for="my_radiobutton_1">Normal</label>
+          <input class="radiobutton" type="radio" value="0.9" name="temp" id ="my_radiobutton_2">
+          <label id="radio_label_right" class="radiobutton_label" for="my_radiobutton_2" >Crazy  </label>
+        </div>
+      </div>
+
+      <div class="rtb-sidebar-caption">
+          <button id="submitbtn" class="button button-primary">GO!</button>
+      </div>
+    </div>
+    <div class="tip" id="hidezone1">
+      <span>How might </span>
+      <select class="select", id="subject", name="subject"></select>
+      <span class="tip" id="problem">save the polar bears?</span>
+    </div>
+    <div class="tip" id="hidezone2">
+      <p id="avalancheTitle">Avalanche title goes here</p> 
+      <span >Choose letter </span>
+      <input class="input" id="userquestion" type="text" placeholder="Please enter your question..."/>
+      <button id="submitbtn" class="button button-primary">GO!</button>
+    </div>
+    <div class="tip" id="hidezone3">
+      <p>What is the worst possible idea about:</p>
+      <input class="input" id="userquestion" type="text" placeholder="Please enter your question..."/>
+      <button id="submitbtn" class="button button-primary">GO!</button>
+    </div>
+    <div class="normal-text">
+        <p id="pOutput">.</p>
+    </div>
+  </body>
+  <script>
+    function sendData() {
+        document.getElementById("pOutput").innerHTML = "processing...";
+        let input = document.getElementById("userquestion").value;
+        let temp = document.querySelector(`input[type="radio"][name=temp]:checked`).value;
+        let form = new FormData();
+        form.append('question', input);
+        form.append('temp', temp);
+        $.ajax({
+            type: 'POST',
+            url: '/str-to-gpt',
+            data: form,
+            cache: false,
+            processData: false,
+            contentType: false
+        }).done(function(data) {
+            document.getElementById("pOutput").innerHTML = data;
+        });
+    }
+    document
+        .getElementById("submitbtn")
+        .addEventListener("click", () => sendData());
+    
+    navigator
+      .mediaDevices
+      .getUserMedia({audio: true})
+      .then(stream => { handlerFunction(stream) });
+
+    function handlerFunction(stream) {
+        rec = new MediaRecorder(stream);
+        rec.ondataavailable = e => {
+            audioChunks.push(e.data);
+            if (rec.state == "inactive") {
+                let blob = new Blob(audioChunks, {type: 'audio/mpeg-3'});
+                sendAudioData(blob);
+            }
+        }
+    }
+
+    function sendAudioData(data) {
+      document.getElementById("pOutput").innerHTML = "processing...";
+      var form = new FormData();
+      form.append('file', data, 'data.mp3');
+      form.append('title', 'data.mp3');
+      let temp = document.querySelector(`input[type="radio"][name=temp]:checked`).value;
+      form.append('temp', temp);
+      //Chrome inspector shows that the post data includes a file and a title.
+      $.ajax({
+          type: 'POST',
+          url: '/save-record',
+          data: form,
+          cache: false,
+          processData: false,
+          contentType: false
+      }).done(function(data) {
+          console.log(data);
+          document.getElementById("pOutput").innerHTML = data;
+      });
+    }
+
+    startRecording.onclick = e => {
+        console.log('Recording are started..');
+        startRecording.disabled = true;
+        stopRecording.disabled = false;
+        audioChunks = [];
+        rec.start();
+    };
+
+    stopRecording.onclick = e => {
+        console.log("Recording are stopped.");
+        startRecording.disabled = false;
+        stopRecording.disabled = true;
+        rec.stop();
+    };
+
+    function hideshow() {
+        if (document.getElementById("my_workshop").value == 0) {
+            document.getElementById("hidezone0").style.display = "block";
+            document.getElementById("hidezone1").style.display = "none";
+            document.getElementById("hidezone2").style.display = "none";
+            document.getElementById("hidezone3").style.display = "none";
+        } else if (document.getElementById("my_workshop").value == 1) {
+            document.getElementById("hidezone0").style.display = "none";
+            document.getElementById("hidezone1").style.display = "block";
+            document.getElementById("hidezone2").style.display = "none";
+            document.getElementById("hidezone3").style.display = "none";
+        } else if (document.getElementById("my_workshop").value == 2) {
+            document.getElementById("hidezone0").style.display = "none";
+            document.getElementById("hidezone1").style.display = "none";
+            document.getElementById("hidezone2").style.display = "block";
+            document.getElementById("hidezone3").style.display = "none";
+        } else if (document.getElementById("my_workshop").value == 3) {
+            document.getElementById("hidezone0").style.display = "none";
+            document.getElementById("hidezone1").style.display = "none";
+            document.getElementById("hidezone2").style.display = "none";
+            document.getElementById("hidezone3").style.display = "block";
+        }
+    }
+
+  </script>
+</html>

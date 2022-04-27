@@ -14,9 +14,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
-@app.route('/miroweb/sidebar.html')
+@app.route('/miroweb/facilitator.html')
 def root():
-    return app.send_static_file('sidebar.html')
+    return app.send_static_file('facilitator.html')
 
 @app.route('/miroweb')
 def miroweb():
@@ -88,9 +88,10 @@ def text_to_return(text: str, temp: int) -> str:
     #    text = f'{text}. Example:{sticky}'
     text = f'{text}.'
     # Get the text from openai
-    answer = OpenAI_Generator(text, 1).generate_idea()
+    answers = OpenAI_Generator(text, 10).generate_idea()
     # add new sticky note on board
-    miro_conn.create_sticky(answer[0])
+    for answer in answers:
+        miro_conn.create_sticky(answer)
     # return the answer to display on the web page
     return answer
 

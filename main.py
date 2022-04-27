@@ -30,10 +30,19 @@ def miroweb_user():
 def miroweb_fac():
     return app.send_static_file('miro_fac_plugin.html')
 
-@app.route('/miroweb/icon.svg')
 @app.route('/icon.svg')
 def get_icon():
     return app.send_static_file('icon.svg')
+
+@app.route('/save_facilitator', methods=['GET'])
+def save_facilitator():
+    # add code to save the status from facilitator interface
+    return "0"
+
+@app.route('/loaduser', methods=['GET'])
+def load_user():
+    # add code to read saved data from facilitator interface
+    return "0"
 
 @app.route('/str-to-gpt', methods=['POST'])
 def str_to_gpt_post() -> str:

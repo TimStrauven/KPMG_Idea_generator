@@ -23,7 +23,10 @@ class Preprocessing():
         A Function that prepares usable question for GPT-3
         for the "How might we..?" workshops
         """
-        return self._process_text("How might we", "?")
+        # TODO update for json from save facilitator status (wait for Fortuné)
+        with open("./data/facilitator_status.txt", "r") as f:
+            workshop = int(f.read())
+        return self._process_text("How might", f" {workshop}")
 
     def process_opposite(self) -> str:
         """

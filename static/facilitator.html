@@ -106,7 +106,7 @@
     <div class="tip" id="tip">From GPT-3 with love!</div>
     <div><p>Select the workshop method</p></div>
     <div>
-        <select onchange="saveFac()" name="workshop" id="my_workshop">
+        <select onchange="hideDivs()" name="workshop" id="my_workshop">
           <option value="0">Go wild!</option>
           <option value="1">How might X do... ?</option>
           <option value="2">Ideas avalanche</option>
@@ -119,15 +119,15 @@
    
     <div class="normal-text"> 
         <div class="radio">
-          <input class="radiobutton" type="radio" value="0.5" name="temp" id="my_radiobutton_1" checked>
+          <input onchange="saveFac()" class="radiobutton" type="radio" value="0.5" name="temp" id="my_radiobutton_1" checked>
           <label class="radiobutton_label" for="my_radiobutton_1">Normal</label>
-          <input class="radiobutton" type="radio" value="0.9" name="temp" id ="my_radiobutton_2">
+          <input onchange="saveFac()" class="radiobutton" type="radio" value="0.9" name="temp" id ="my_radiobutton_2">
           <label id="radio_label_right" class="radiobutton_label" for="my_radiobutton_2" >  Crazy  </label>
         </div>
     </div>
 
     <div><p>Number of ideas</p></div>
-    <div><input id="setting3" type="number" min="1" max="10"></div>
+    <div><input id="setting3" type="number" min="1" max="10" onchange="saveFac()"></div>
 
     <div><input type="submit" value="Submit"></div>
     
@@ -138,38 +138,42 @@
             <label for="input_participants">Show settings to participant</label>
         </div> 
     </div> -->
+    <div id="hide_zone_who_is_solving">
+      <div><p>Who is solving this problem:</p></div>
+      <div>
+          <input type="checkbox" id="my_input_1">
+          <label for="my_input_1">Disney</label>
+      </div>
 
-    <div><p>Who is solving this problem:</p></div>
-    <div>
-        <input type="checkbox" id="my_input_1">
-        <label for="my_input_1">Disney</label>
+      <div>
+          <input type="checkbox" id="my_input_2">
+          <label for="my_input_2">Trump</label>
+      </div>
+      <div>
+          <input type="checkbox" id="my_input_3">
+          <label for="my_input_3">Mother theresa</label>
+      </div>
+      <div><input type="text" id="my_text_input_1" placeholder="Enter free text"></div>
     </div>
-    <div>
-        <input type="checkbox" id="my_input_2">
-        <label for="my_input_2">Trump</label>
-    </div>
-    <div>
-        <input type="checkbox" id="my_input_3">
-        <label for="my_input_3">Mother theresa</label>
-    </div>
-    <div><input type="text" id="my_text_input_1" placeholder="Enter free text"></div>
 
-    
-    <div><p>What problem should be solved?</p></div>
-    <div><input type="text"></div>
+    <div id="hide_zone_problem_solved">
+      <div><p>What problem should be solved?</p></div>
+      <div><input type="text" id="what_problem_text"></div>
+    </div>
 
-    <div><p>Define question for Idea Avalanche</p></div>
-    <div><input type="text"></div>
+    <div id="hide_zone_avalanche">
+      <div><p>Define question for Idea Avalanche</p></div>
+      <div><input type="text" id="define_question_text"></div>
+    </div>
 
     <div>
-        <div><input type="checkbox"><label for="">Participant cqn select one letter</label></div>
-        <div><input type="checkbox"><label for="">Generate one idea per each letter</label></div>
-        
+        <div><input type="checkbox" id="select_one_letter"><label for="">Participant cqn select one letter</label></div>
+        <div><input type="checkbox" id="generate_one_idea"><label for="">Generate one idea per each letter</label></div>
     </div>
-   
+    <!--
     <div><button>Prepare New Question</button></div>
     <div><button>Print List of Questions</button></div>
-
+    -->
 </body>
 <script>
     function sendData() {
@@ -193,8 +197,30 @@
 
     function saveFac(){
       let workshop = document.getElementById("my_workshop").value;
+      let input_number_idea = document.getElementById("setting3").value;
+      let input_normal = document.getElementById("my_radiobutton_1").value;
+      let input_crazy = document.getElementById("my_radiobutton_2").value;
+      let input_solving_problem1 = document.getElementById("my_input_1").value;
+      let input_solving_problem2 = document.getElementById("my_input_2").value;
+      let input_solving_problem3 = document.getElementById("my_input_3").value;
+      let input_free_text_problem = document.getElementById("my_text_input_1").value;
+      let input_what_problem_text = document.getElementById("what_problem_text").value;
+      let input_define_question_text = document.getElementById("define_question_text").value;
+      let input_select_one_letter = document.getElementById("select_one_letter").value;
+      let input_generate_one_idea = document.getElementById("generate_one_idea").value;
       let form = new FormData();
       form.append('workshop', workshop);
+      form.append('number_idea', input_number_idea);
+      form.append('normal', input_normal);
+      form.append('crazy', input_crazy);
+      form.append('solving_problem1', input_solving_problem1);
+      form.append('solving_problem2', input_solving_problem2);
+      form.append('solving_problem3', input_solving_problem3);
+      form.append('free_text_problem', input_free_text_problem);
+      form.append('what_problem', input_what_problem_text);
+      form.append('define_question_text', input_define_question_text);
+      form.append('select_one_letter', input_select_one_letter);
+      form.append('generate_one_idea', input_generate_one_idea);
       $.ajax({
           type: 'POST',
           url: '/save_facilitator',
@@ -207,5 +233,21 @@
         document.getElementById("pOutput").innerHTML = data;
       });
     }
+  
+    function hideDivs(data) {
+      document.getElementById("hide_zone_avalanche").style.display = "none";
+      document.getElementById("hide_zone_who_is_solving").style.display = "none";
+      document.getElementById("hide_zone_problem_solved").style.display = "none";
+
+      if (data == 1) {
+          document.getElementById("hide_zone_who_is_solving").style.display = "block";
+      } else if (data == 2) {
+          document.getElementById("hide_zone_avalanche").style.display = "block";
+      } else if (data == 3) {
+          document.getElementById("hide_zone_problem_solved").style.display = "block";
+      }
+    };
+
+    
 </script>
 </html>

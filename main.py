@@ -65,6 +65,7 @@ def save_facilitator():
     facilitator_dict["one_letter"] = one_letter
     facilitator_dict["one_idea"] = one_idea
     print(facilitator_dict)
+
     
     with open('data/facilitator_status.txt', 'w') as f:
         f.write(str(workshop))
@@ -90,7 +91,7 @@ def str_to_gpt_post() -> str:
 def avalanche_post() -> str:
     question = request.form['question']
     preprocessor = Preprocessing(question)
-    text_list = preprocessor.avalanche()
+    text_list = preprocessor.process_avalanche()
     for idea in text_list:
          # Get the text from openai
         answer = OpenAI_Generator(idea, 1).generate_idea()

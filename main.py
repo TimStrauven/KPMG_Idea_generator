@@ -74,7 +74,7 @@ def save_facilitator():
 def load_user():
     # final version should use push, but js timer is ok for demo
     workshop = 0
-    with open('data/facilitator_status.txt', 'r') as f:
+    with open('./data/facilitator_status.txt', 'r') as f:
         workshop = int(f.read())
     return f"{workshop}"
 

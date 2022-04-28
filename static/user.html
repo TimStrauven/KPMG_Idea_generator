@@ -275,7 +275,14 @@
         });
     };
 
-    
+  
+    function udateList(data,i){
 
+      var opt = document.createElement('option');
+      opt.value = i;
+      opt.innerHTML = data;
+      select.appendChild(opt);
+      
+    }
   </script>
 </html>

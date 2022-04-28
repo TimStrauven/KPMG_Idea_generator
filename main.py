@@ -6,6 +6,7 @@ import subprocess
 from utils.idea_generator import OpenAI_Generator
 from utils.preprocessing import Preprocessing
 import miro.miro_conn as miro_conn
+from typing import Dict
 
 UPLOAD_FOLDER = './data'
 if os.path.exists('./data') == False:
@@ -38,7 +39,34 @@ def get_icon():
 @app.route('/save_facilitator', methods=['POST'])
 def save_facilitator():
     workshop = int(request.form['workshop'])
-    with open('./data/facilitator_status.txt', 'w') as f:
+    number_of_idea = int(request.form['number_idea'])
+    normal = float(request.form['normal'])
+    crazy = float(request.form['crazy'])
+    #maybe should be a list for the problem
+    problem1 = bool(request.form['solving_problem1'])
+    problem2 = bool(request.form['solving_problem2'])
+    problem3 = bool(request.form['solving_problem3'])
+    text_problem = str(request.form['free_text_problem'])
+    what_problem = str(request.form['what_problem'])
+    question_text = str(request.form['define_question_text'])
+    one_letter = str(request.form['select_one_letter'])
+    one_idea = str(request.form['generate_one_idea'])
+    facilitator_dict:Dict = {}
+    facilitator_dict["workshop"] = workshop
+    facilitator_dict["number_of_idea"] = number_of_idea
+    facilitator_dict["normal"] = normal
+    facilitator_dict["crazy"] = crazy
+    facilitator_dict["problem1"] = problem1
+    facilitator_dict["problem2"] = problem2
+    facilitator_dict["problem3"] = problem3
+    facilitator_dict["text_problem"] = text_problem
+    facilitator_dict["what_problem"] = what_problem
+    facilitator_dict["question_text"] = question_text
+    facilitator_dict["one_letter"] = one_letter
+    facilitator_dict["one_idea"] = one_idea
+    print(facilitator_dict)
+    
+    with open('data/facilitator_status.txt', 'w') as f:
         f.write(str(workshop))
     return "done"
 

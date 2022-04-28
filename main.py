@@ -50,8 +50,7 @@ def load_user():
     with open('./data/facilitator_status.json') as f:
         data = f.read()
     data_json = json.loads(data)
-    workshop = int(data_json['workshop'])
-    return f"{workshop}"
+    return data_json
 
 @app.route('/str-to-gpt', methods=['POST'])
 def str_to_gpt_post() -> str:

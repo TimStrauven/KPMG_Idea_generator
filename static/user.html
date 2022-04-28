@@ -270,10 +270,12 @@
             processData: false,
             contentType: false
         }).done(function(data) {
-          hideDivs(parseInt(data));
+          hideDivs(parseInt(data["workshop"]));
+          document.getElementById("avalancheTopic").innerHTML = data["question_text"];
         });
     };
 
+    
 
   </script>
 </html>

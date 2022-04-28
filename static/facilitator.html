@@ -290,6 +290,7 @@
       let input_free_text_problem = document.getElementById("my_text_input_1").value;
       let input_what_problem_text = document.getElementById("what_problem_text").value;
       let input_define_question_text = document.getElementById("define_question_text").value;
+      let input_user_question = document.getElementById("userquestion").value;
       //let input_select_one_letter = document.getElementById("select_one_letter").value;
       //let input_generate_one_idea = document.getElementById("generate_one_idea").value;
       let form = new FormData();
@@ -303,6 +304,7 @@
       form.append('text_problem', input_free_text_problem);
       form.append('what_problem', input_what_problem_text);
       form.append('question_text', input_define_question_text);
+      form.append('userquestion', input_user_question);
       //form.append('select_one_letter', input_select_one_letter);
       //form.append('generate_one_idea', input_generate_one_idea);
       $.ajax({

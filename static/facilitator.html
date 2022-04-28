@@ -192,7 +192,7 @@
           <label id="radio_label_right" class="radiobutton_label" for="my_radiobutton_2" >  Crazy  </label>
         </div>
       </div>
-      <div id="submitFrame"><input id="submitButton" type="submit" value="Submit"></div>
+      <div id="submitFrame"><input onclick="saveFac();" id="submitButton" type="submit" value="Send to user"></div>
       </div>
     </div>
     
@@ -224,7 +224,7 @@
       <div><input type="text" id="my_text_input_1" placeholder="Enter free text"></div>
       <div><p>Number of ideas</p></div>
       <div><input id="setting3" type="number" min="1" max="10"></div>
-      <div id="submitFrame"><input id="submitButton" type="submit" value="Submit"></div>
+      <div id="submitFrame"><input onclick="saveFac();" id="submitButton" type="submit" value="Send to user"></div>
     </div>
     </div>
 
@@ -233,7 +233,7 @@
       <div><p>What problem should be solved?</p></div>
       <div><input type="text" id="what_problem_text"></div>
       </div>
-      <div id="submitFrame"><input id="submitButton" type="submit" value="Submit"></div>
+      <div id="submitFrame"><input onclick="saveFac();" id="submitButton" type="submit" value="Send to user"></div>
     </div>
 
     <div id="hideZoneAvalanche">
@@ -241,7 +241,7 @@
       <div><p>Define question for Idea Avalanche</p></div>
       <div><input type="text" id="define_question_text"></div>
       </div>
-      <div id="submitFrame"><input id="submitButton" type="submit" value="Submit"></div>
+      <div id="submitFrame"><input onclick="saveFac();" id="submitButton" type="submit" value="Send to user"></div>
     </div>
     <!--
     <div>
@@ -254,10 +254,10 @@
     
 </body>
 <script>
-    document.getElementById("hideZoneWild").style.display = "none";
-    document.getElementById("hideZoneAvalanche").style.display = "none";
-    document.getElementById("hideZoneWho").style.display = "none";
-    document.getElementById("hideZoneSolved").style.display = "none";
+    document.getElementById("hideZoneWild").style.visibility = "visible";
+    document.getElementById("hideZoneAvalanche").style.visibility = "hidden";
+    document.getElementById("hideZoneWho").style.visibility = "hidden";
+    document.getElementById("hideZoneSolved").style.visibility = "hidden";
     /*document.getElementById("submitFrame").style.display = "none";*/
 
     function sendData() {
@@ -290,21 +290,21 @@
       let input_free_text_problem = document.getElementById("my_text_input_1").value;
       let input_what_problem_text = document.getElementById("what_problem_text").value;
       let input_define_question_text = document.getElementById("define_question_text").value;
-      let input_select_one_letter = document.getElementById("select_one_letter").value;
-      let input_generate_one_idea = document.getElementById("generate_one_idea").value;
+      //let input_select_one_letter = document.getElementById("select_one_letter").value;
+      //let input_generate_one_idea = document.getElementById("generate_one_idea").value;
       let form = new FormData();
       form.append('workshop', workshop);
       form.append('number_idea', input_number_idea);
       form.append('normal', input_normal);
       form.append('crazy', input_crazy);
-      form.append('solving_problem1', input_solving_problem1);
-      form.append('solving_problem2', input_solving_problem2);
-      form.append('solving_problem3', input_solving_problem3);
-      form.append('free_text_problem', input_free_text_problem);
+      form.append('problem1', input_solving_problem1);
+      form.append('problem2', input_solving_problem2);
+      form.append('problem3', input_solving_problem3);
+      form.append('text_problem', input_free_text_problem);
       form.append('what_problem', input_what_problem_text);
-      form.append('define_question_text', input_define_question_text);
-      form.append('select_one_letter', input_select_one_letter);
-      form.append('generate_one_idea', input_generate_one_idea);
+      form.append('question_text', input_define_question_text);
+      //form.append('select_one_letter', input_select_one_letter);
+      //form.append('generate_one_idea', input_generate_one_idea);
       $.ajax({
           type: 'POST',
           url: '/save_facilitator',
@@ -317,21 +317,31 @@
         document.getElementById("pOutput").innerHTML = data;
       });
     }
-  
+
+
+
     function hideDivs() {
       data = document.getElementById("my_workshop").value;
-      document.getElementById("hideZoneWild").style.display = "none";
-      document.getElementById("hideZoneAvalanche").style.display = "none";
-      document.getElementById("hideZoneWho").style.display = "none";
-      document.getElementById("hideZoneSolved").style.display = "none";
+      document.getElementById("hideZoneWild").style.visibility = "hidden";
+      document.getElementById("hideZoneAvalanche").style.visibility = "hidden";
+      document.getElementById("hideZoneWho").style.visibility = "hidden";
+      document.getElementById("hideZoneSolved").style.visibility = "hidden";
+      document.getElementById("hideZoneWild").style.maxHeight = 0;
+      document.getElementById("hideZoneAvalanche").style.maxHeight = 0;
+      document.getElementById("hideZoneWho").style.maxHeight = 0;
+      document.getElementById("hideZoneSolved").style.maxHeight = 0;
       if (data == 1) {
-          document.getElementById("hideZoneWho").style.display = "block";
+          document.getElementById("hideZoneWho").style.visibility = "visible";
+          document.getElementById("hideZoneWho").style.maxHeight = 500;
       } else if (data == 0) {
-          document.getElementById("hideZoneWild").style.display = "block";
+          document.getElementById("hideZoneWild").style.visibility = "visible";
+          document.getElementById("hideZoneWild").style.maxHeight = 500;
       } else if (data == 2) {
-          document.getElementById("hideZoneAvalanche").style.display = "block";
+          document.getElementById("hideZoneAvalanche").style.visibility = "visible";
+          document.getElementById("hideZoneAvalanche").style.maxHeight = 500;
       } else if (data == 3) {
-          document.getElementById("hideZoneSolved").style.display = "block";
+          document.getElementById("hideZoneSolved").style.visibility = "visible";
+          document.getElementById("hideZoneSolved").style.maxHeight = 500;
       }
     };
 

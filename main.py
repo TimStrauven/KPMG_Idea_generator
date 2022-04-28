@@ -38,22 +38,22 @@ def get_icon():
 
 @app.route('/save_facilitator', methods=['POST'])
 def save_facilitator():
-    workshop = int(request.form['workshop'])
-    number_of_idea = int(request.form['number_idea'])
-    normal = float(request.form['normal'])
-    crazy = float(request.form['crazy'])
+    workshop = str(request.form['workshop'])
+    number_of_idea = str(request.form['number_idea'])
+    normal = str(request.form['normal'])
+    crazy = str(request.form['crazy'])
     #maybe should be a list for the problem
-    problem1 = bool(request.form['solving_problem1'])
-    problem2 = bool(request.form['solving_problem2'])
-    problem3 = bool(request.form['solving_problem3'])
-    text_problem = str(request.form['free_text_problem'])
+    problem1 = str(request.form['problem1'])
+    problem2 = str(request.form['problem2'])
+    problem3 = str(request.form['problem3'])
+    text_problem = str(request.form['text_problem'])
     what_problem = str(request.form['what_problem'])
-    question_text = str(request.form['define_question_text'])
-    one_letter = str(request.form['select_one_letter'])
-    one_idea = str(request.form['generate_one_idea'])
+    question_text = str(request.form['question_text'])
+    # one_letter = str(request.form['select_one_letter'])
+    # one_idea = str(request.form['generate_one_idea'])
     facilitator_dict: Dict = {}
     facilitator_dict["workshop"] = workshop
-    facilitator_dict["number_of_idea"] = number_of_idea
+    facilitator_dict["number_idea"] = number_of_idea
     facilitator_dict["normal"] = normal
     facilitator_dict["crazy"] = crazy
     facilitator_dict["problem1"] = problem1
@@ -62,20 +62,23 @@ def save_facilitator():
     facilitator_dict["text_problem"] = text_problem
     facilitator_dict["what_problem"] = what_problem
     facilitator_dict["question_text"] = question_text
-    facilitator_dict["one_letter"] = one_letter
-    facilitator_dict["one_idea"] = one_idea
+    # facilitator_dict["one_letter"] = one_letter
+    # facilitator_dict["one_idea"] = one_idea
     print(facilitator_dict)
 
     with open('data/facilitator_status.txt', 'w') as f:
         f.write(str(workshop))
+    with open('data/facilitator_status.json', 'w') as f:
+        f.write(str(facilitator_dict))
     return "done"
 
 @app.route('/loaduser', methods=['GET'])
 def load_user():
     # TODO final version should use push, but js timer is ok for demo
     workshop = 0
-    with open('./data/facilitator_status.txt', 'r') as f:
-        workshop = int(f.read())
+    with open('./data/facilitator_status.json', 'r') as f:
+        lines = int(f.read())
+    workshop = lines["workshop"]
     return f"{workshop}"
 
 @app.route('/str-to-gpt', methods=['POST'])

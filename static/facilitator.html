@@ -119,15 +119,15 @@
    
     <div class="normal-text"> 
         <div class="radio">
-          <input onchange="saveFac()" class="radiobutton" type="radio" value="0.5" name="temp" id="my_radiobutton_1" checked>
+          <input class="radiobutton" type="radio" value="0.5" name="temp" id="my_radiobutton_1" checked>
           <label class="radiobutton_label" for="my_radiobutton_1">Normal</label>
-          <input onchange="saveFac()" class="radiobutton" type="radio" value="0.9" name="temp" id ="my_radiobutton_2">
+          <input class="radiobutton" type="radio" value="0.9" name="temp" id ="my_radiobutton_2">
           <label id="radio_label_right" class="radiobutton_label" for="my_radiobutton_2" >  Crazy  </label>
         </div>
     </div>
 
     <div><p>Number of ideas</p></div>
-    <div><input id="setting3" type="number" min="1" max="10" onchange="saveFac()"></div>
+    <div><input id="setting3" type="number" min="1" max="10"></div>
 
     <div><input type="submit" value="Submit"></div>
     
@@ -167,8 +167,8 @@
     </div>
 
     <div>
-        <div><input type="checkbox" id="select_one_letter"><label for="">Participant cqn select one letter</label></div>
-        <div><input type="checkbox" id="generate_one_idea"><label for="">Generate one idea per each letter</label></div>
+        <div><input type="checkbox" id="select_one_letter"><label for="select_one_letter">Participant cqn select one letter</label></div>
+        <div><input type="checkbox" id="generate_one_idea"><label for="generate_one_idea">Generate one idea per each letter</label></div>
     </div>
     <!--
     <div><button>Prepare New Question</button></div>

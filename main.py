@@ -72,7 +72,7 @@ def save_facilitator():
 
 @app.route('/loaduser', methods=['GET'])
 def load_user():
-    # final version should use push, but js timer is ok for demo
+    # TODO final version should use push, but js timer is ok for demo
     workshop = 0
     with open('./data/facilitator_status.txt', 'r') as f:
         workshop = int(f.read())
@@ -85,6 +85,19 @@ def str_to_gpt_post() -> str:
     print(temp)
     answer = text_to_return(question, temp)
     return answer
+
+@app.route('/avalanche', methods=['POST'])
+def avalanche_post() -> str:
+    question = request.form['question']
+    preprocessor = Preprocessing(question)
+    text_list = preprocessor.avalanche()
+    for idea in text_list:
+         # Get the text from openai
+        answer = OpenAI_Generator(idea, 1).generate_idea()
+        # add new sticky note on board
+        miro_conn.create_sticky(answer)
+        # TODO needs to be completed with option to select a single letter
+    return "done"
 
 @app.route('/save-record', methods=['POST'])
 def save_record() -> str:

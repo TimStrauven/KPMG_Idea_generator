@@ -1,6 +1,5 @@
 import os
-from string import ascii_lowercase
-
+import string
 
 
 class Preprocessing():
@@ -57,13 +56,14 @@ class Preprocessing():
         for the "Ideas Avalanche" workshops
         """
         text_list = []
-        for letter in ascii_lowercase:
+        for letter in string.ascii_lowercase:
             text = f"Give an idea starting with the letter: {letter} about this topic:"
-            text_list.append(self._process_text(text,""))
+            append_text = self._process_text(text, "")
+            text_list.append(append_text)
 
         # TODO needs to be completed with option to select a single letter
 
-            return self._process_text(text_list)
+        return self._process_text(text_list)
 
     def process_crazy_text(self) -> str:
         return self._process_text("Give a completely crazy new idea for this topic:", "")
@@ -75,11 +75,8 @@ class Preprocessing():
         problem = self.input_data
         if not problem:
             raise ValueError(" Please enter your text")
-        if len(problem) <= 50:
+        if len(problem) <= 200:
             self.output_data = f"{start_text} {problem} {end_text}"
         else:
-            raise ValueError("Too long! Only 50 characters allowed!")
+            raise ValueError("Too long! Only 200 characters allowed!")
         return self.output_data
-
-
-

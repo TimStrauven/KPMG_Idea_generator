@@ -51,7 +51,7 @@ def save_facilitator():
     question_text = str(request.form['define_question_text'])
     one_letter = str(request.form['select_one_letter'])
     one_idea = str(request.form['generate_one_idea'])
-    facilitator_dict:Dict = {}
+    facilitator_dict: Dict = {}
     facilitator_dict["workshop"] = workshop
     facilitator_dict["number_of_idea"] = number_of_idea
     facilitator_dict["normal"] = normal
@@ -66,7 +66,6 @@ def save_facilitator():
     facilitator_dict["one_idea"] = one_idea
     print(facilitator_dict)
 
-    
     with open('data/facilitator_status.txt', 'w') as f:
         f.write(str(workshop))
     return "done"
@@ -90,10 +89,11 @@ def str_to_gpt_post() -> str:
 @app.route('/avalanche', methods=['POST'])
 def avalanche_post() -> str:
     question = request.form['question']
+    print(question)
     preprocessor = Preprocessing(question)
     text_list = preprocessor.process_avalanche()
     for idea in text_list:
-         # Get the text from openai
+        # Get the text from openai
         answer = OpenAI_Generator(idea, 1).generate_idea()
         # add new sticky note on board
         miro_conn.create_sticky(answer)

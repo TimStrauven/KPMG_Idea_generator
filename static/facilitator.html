@@ -230,8 +230,9 @@
 
     <div id="hideZoneSolved">
       <div class="bodyBlock">
-      <div><p>What problem should be solved?</p></div>
-      <div><input type="text" id="what_problem_text"></div>
+      <div><p>Let the user decide what problem should be solved</p></div>
+
+      <!--<div><input type="text" id="what_problem_text"></div>-->
       </div>
       <div id="submitFrame"><input onclick="saveFac();" id="submitButton" type="submit" value="Send to user"></div>
     </div>
@@ -281,6 +282,7 @@
 
     function saveFac(){
       let workshop = document.getElementById("my_workshop").value;
+      //consol.log(workshop)
       let input_number_idea = document.getElementById("setting3").value;
       let input_normal = document.getElementById("my_radiobutton_1").value;
       let input_crazy = document.getElementById("my_radiobutton_2").value;
@@ -290,8 +292,8 @@
       let input_solving_problem1 = document.getElementById("my_input_1").checked;
       let input_solving_problem2 = document.getElementById("my_input_2").checked;
       let input_solving_problem3 = document.getElementById("my_input_3").checked;
-      let input_free_text_problem = document.getElementById("my_text_input_1").innerText;
-      let input_what_problem_text = document.getElementById("what_problem_text").value;
+      let input_free_text_problem = document.getElementById("my_text_input_1").value;
+      /*let input_what_problem_text = document.getElementById("what_problem_text").value;*/
       let input_define_question_text = document.getElementById("define_question_text").value;
       let input_user_question = document.getElementById("userquestion").value;
       //let input_select_one_letter = document.getElementById("select_one_letter").value;
@@ -308,7 +310,7 @@
       form.append('problem2_txt', input_solving_problem2_txt);
       form.append('problem3_txt', input_solving_problem3_txt);
       form.append('text_problem', input_free_text_problem);
-      form.append('what_problem', input_what_problem_text);
+      //form.append('what_problem', input_what_problem_text);
       form.append('question_text', input_define_question_text);
       form.append('userquestion', input_user_question);
       //form.append('select_one_letter', input_select_one_letter);

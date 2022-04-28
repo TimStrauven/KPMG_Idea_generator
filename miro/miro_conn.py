@@ -3,7 +3,7 @@ import random
 import requests
 
 key = os.getenv("MIRO_DEV_API_KEY")
-board_id = "uXjVO7_CXDs="
+board_id = "uXjVO6auiM4="
 url = f"https://api.miro.com/v1/boards/{board_id}/widgets/"
 
 headers = {

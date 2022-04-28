@@ -131,10 +131,9 @@
       <span class="tip" id="problem">save the polar bears?</span>
     </div>
     <div class="tip" id="hidezone2">
-      <p id="avalancheTitle">Avalanche title goes here</p> 
-      <span >Choose letter </span>
-      <input class="input" id="userquestion" type="text" placeholder="Please enter your question..."/>
-      <button id="submitbtn" class="button button-primary">GO!</button>
+      <p>Avalanche generates one idea about the topic per each letter of the alphabet</p>
+      <p id="avalancheTopic">Tim</p>
+      <button id="submitbtnAvalanche" class="button button-primary">GO!</button>
     </div>
     <div class="tip" id="hidezone3">
       <p>What is the worst possible idea about:</p>
@@ -167,7 +166,28 @@
     document
         .getElementById("submitbtn")
         .addEventListener("click", () => sendData());
-    
+
+    function sendAvalanche() {
+        document.getElementById("pOutput").innerHTML = "processing...";
+        let input = document.getElementById("avalancheTopic").value;
+        let temp = document.querySelector(`input[type="radio"][name=temp]:checked`).value;
+        let form = new FormData();
+        form.append('question', input);
+        form.append('temp', temp);
+        $.ajax({
+            type: 'POST',
+            url: '/avalanche', 
+            data: form,
+            cache: false,
+            processData: false,
+            contentType: false
+        }).done(function(data) {
+            document.getElementById("pOutput").innerHTML = data;
+        });
+    }
+    document
+        .getElementById("submitbtnAvalanche")
+        .addEventListener("click", () => sendAvalanche());
     navigator
       .mediaDevices
       .getUserMedia({audio: true})

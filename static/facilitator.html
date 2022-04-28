@@ -119,15 +119,15 @@
    
     <div class="normal-text"> 
         <div class="radio">
-          <input onchange="saveFac()" class="radiobutton" type="radio" value="0.5" name="temp" id="my_radiobutton_1" checked>
+          <input class="radiobutton" type="radio" value="0.5" name="temp" id="my_radiobutton_1" checked>
           <label class="radiobutton_label" for="my_radiobutton_1">Normal</label>
-          <input onchange="saveFac()" class="radiobutton" type="radio" value="0.9" name="temp" id ="my_radiobutton_2">
+          <input class="radiobutton" type="radio" value="0.9" name="temp" id ="my_radiobutton_2">
           <label id="radio_label_right" class="radiobutton_label" for="my_radiobutton_2" >  Crazy  </label>
         </div>
     </div>
 
     <div><p>Number of ideas</p></div>
-    <div><input id="setting3" type="number" min="1" max="10" onchange="saveFac()"></div>
+    <div><input id="setting3" type="number" min="1" max="10"></div>
 
     <div><input type="submit" value="Submit"></div>
     
@@ -138,7 +138,7 @@
             <label for="input_participants">Show settings to participant</label>
         </div> 
     </div> -->
-    <div id="hide_zone_who_is_solving">
+    <div id="hideZoneWho">
       <div><p>Who is solving this problem:</p></div>
       <div>
           <input type="checkbox" id="my_input_1">
@@ -156,19 +156,19 @@
       <div><input type="text" id="my_text_input_1" placeholder="Enter free text"></div>
     </div>
 
-    <div id="hide_zone_problem_solved">
+    <div id="hideZoneSolved">
       <div><p>What problem should be solved?</p></div>
       <div><input type="text" id="what_problem_text"></div>
     </div>
 
-    <div id="hide_zone_avalanche">
+    <div id="hideZoneAvalanche">
       <div><p>Define question for Idea Avalanche</p></div>
       <div><input type="text" id="define_question_text"></div>
     </div>
 
     <div>
-        <div><input type="checkbox" id="select_one_letter"><label for="">Participant cqn select one letter</label></div>
-        <div><input type="checkbox" id="generate_one_idea"><label for="">Generate one idea per each letter</label></div>
+        <div><input type="checkbox" id="select_one_letter"><label for="select_one_letter">Participant cqn select one letter</label></div>
+        <div><input type="checkbox" id="generate_one_idea"><label for="generate_one_idea">Generate one idea per each letter</label></div>
     </div>
     <!--
     <div><button>Prepare New Question</button></div>
@@ -234,17 +234,17 @@
       });
     }
   
-    function hideDivs(data) {
-      document.getElementById("hide_zone_avalanche").style.display = "none";
-      document.getElementById("hide_zone_who_is_solving").style.display = "none";
-      document.getElementById("hide_zone_problem_solved").style.display = "none";
-
+    function hideDivs() {
+      data = document.getElementById("my_workshop").value;
+      document.getElementById("hideZoneAvalanche").style.display = "none";
+      document.getElementById("hideZoneWho").style.display = "none";
+      document.getElementById("hideZoneSolved").style.display = "none";
       if (data == 1) {
-          document.getElementById("hide_zone_who_is_solving").style.display = "block";
+          document.getElementById("hideZoneWho").style.display = "block";
       } else if (data == 2) {
-          document.getElementById("hide_zone_avalanche").style.display = "block";
+          document.getElementById("hideZoneAvalanche").style.display = "block";
       } else if (data == 3) {
-          document.getElementById("hide_zone_problem_solved").style.display = "block";
+          document.getElementById("hideZoneSolved").style.display = "block";
       }
     };
 

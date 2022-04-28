@@ -27,7 +27,9 @@ class OpenAI_Generator():
         :return: A boolean value that indicate if api connection is created or not.
         """
         try:
-            openai.api_key = os.getenv("OPENAI_API_KEY")
+            credential = open("data/api_credentials.json", "r")
+            self.api_key = eval(credential.read())['openAI_api_key']
+            openai.api_key = self.api_key
         except openai.exceptions.InvalidAPIKeyError:
             return False
         except FileNotFoundError:

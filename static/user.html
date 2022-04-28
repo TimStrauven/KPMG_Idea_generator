@@ -129,6 +129,7 @@
       <span>How might </span>
       <select class="select", id="howMight", name="subject"></select>
       <span class="tip" id="problem">save the polar bears?</span>
+      <div><button id="submitbtnAvalanche" class="button button-primary">GO!</button></div>
     </div>
     <div class="tip" id="hidezone2">
       <p>Avalanche generates one idea about the topic per each letter of the alphabet</p>
@@ -272,6 +273,7 @@
         }).done(function(data) {
           hideDivs(parseInt(data["workshop"]));
           document.getElementById("avalancheTopic").innerHTML = data["question_text"];
+          document.getElementById("problem").innerHTML = data["text_problem"];
           if(document.getElementById("howMight").options.length == 0){
             if(data["problem1"] == "true") {
               udateList(data["problem1_txt"], 1);
@@ -282,7 +284,7 @@
             if(data["problem3"] == "true") {
               udateList(data["problem3_txt"], 1);
             }
-            udateList(data["my_text_input_1"], 1);
+            //udateList(data["text_problem"], 1);
           }
         });
     };

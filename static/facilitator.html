@@ -17,6 +17,7 @@
         }
         
         .normal-text {
+          display:None;
           font-size: 16px;
           color: rgba(0, 0, 0, 0.8);
           padding: 24px 0 0 24px;
@@ -62,6 +63,7 @@
         .radio {
           display: inline-flex;
           overflow: hidden;
+          margin:0px;
           border-radius: 18px;
           color :white;
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
@@ -94,6 +96,62 @@
           color: #cccccc;
           margin: 20px 0 0 26px;
         }
+
+        #tip {
+          font-style:italic;
+        }
+
+        #submitButton {
+          margin:0 auto;
+          display:block;
+          background-color: rgb(218, 58, 0);
+          color :white;
+          /*font-weight: bold;*/
+          font-size: 20px;
+          border-radius: 5px;
+          padding: 3px 15px;
+          border-color: white;
+          border-width: 2px;
+          margin-top: 40px;
+        }
+
+        #radioFrame {
+          margin : 0 auto;
+          display:block;
+          padding-left: 0;
+          margin-bottom: 15px;
+        }
+
+        #selectitleSelectWorkshop {
+          font-family: Helvetica, sans-serif;
+        }
+
+        #gpt {
+          color:rgb(218, 58, 0);
+        }
+
+        .bodyBlock {
+          margin:0 auto;
+          display: block;
+          padding:0 auto;
+          padding-left: 20px;
+        }
+
+        #questionFrame {
+          padding:0;
+          margin-top:20px;
+        }
+
+        #recordingFrame {
+          margin:0;
+          padding:0;
+        }
+
+        #my_workshop {
+          font-size: 1em;
+          color:rgb(218, 58, 0);
+        }
+
       </style>
 </head>
 <body>
@@ -103,8 +161,8 @@
         </div>
         <div class="rtb-sidebar-caption"><span class="open-ai-title">OpenAI</span></div>
     </div>
-    <div class="tip" id="tip">From GPT-3 with love!</div>
-    <div><p>Select the workshop method</p></div>
+    <div class="tip" id="tip">From <span id="gpt">GPT-3</span> with love!</div>
+    <div id="titleSelectWorkshop"><p>Select the workshop method</p></div>
     <div>
         <select onchange="hideDivs()" name="workshop" id="my_workshop">
           <option value="0">Go wild!</option>
@@ -114,22 +172,29 @@
         </select>
     </div>
 
-    <div>General settings:</div>
 
-   
-    <div class="normal-text"> 
+    <div id="hideZoneWild">
+      <div class="bodyBlock">
+      <div id="recordingFrame" class="rtb-sidebar-caption">
+        <p>
+          <button id="startRecording">Start recording</button>
+          <button id="stopRecording" disabled>Stop recording</button>
+        </p>
+      </div>  
+      <div id="questionFrame">
+        <input class="input" id="userquestion" type="text" placeholder="Please enter your question..."/>
+      </div>
+      <div id="radioFrame" class="normal-text"> 
         <div class="radio">
           <input class="radiobutton" type="radio" value="0.5" name="temp" id="my_radiobutton_1" checked>
           <label class="radiobutton_label" for="my_radiobutton_1">Normal</label>
           <input class="radiobutton" type="radio" value="0.9" name="temp" id ="my_radiobutton_2">
           <label id="radio_label_right" class="radiobutton_label" for="my_radiobutton_2" >  Crazy  </label>
         </div>
+      </div>
+      <div id="submitFrame"><input id="submitButton" type="submit" value="Submit"></div>
+      </div>
     </div>
-
-    <div><p>Number of ideas</p></div>
-    <div><input id="setting3" type="number" min="1" max="10"></div>
-
-    <div><input type="submit" value="Submit"></div>
     
 <!--     <div>
         <div><p>Settings : </p></div>
@@ -139,6 +204,9 @@
         </div> 
     </div> -->
     <div id="hideZoneWho">
+
+      <div class="bodyBlock">
+      <div>General settings:</div>
       <div><p>Who is solving this problem:</p></div>
       <div>
           <input type="checkbox" id="my_input_1">
@@ -154,27 +222,44 @@
           <label for="my_input_3">Mother theresa</label>
       </div>
       <div><input type="text" id="my_text_input_1" placeholder="Enter free text"></div>
+      <div><p>Number of ideas</p></div>
+      <div><input id="setting3" type="number" min="1" max="10"></div>
+      <div id="submitFrame"><input id="submitButton" type="submit" value="Submit"></div>
+    </div>
     </div>
 
     <div id="hideZoneSolved">
+      <div class="bodyBlock">
       <div><p>What problem should be solved?</p></div>
       <div><input type="text" id="what_problem_text"></div>
+      </div>
+      <div id="submitFrame"><input id="submitButton" type="submit" value="Submit"></div>
     </div>
 
     <div id="hideZoneAvalanche">
+      <div class="bodyBlock">
       <div><p>Define question for Idea Avalanche</p></div>
       <div><input type="text" id="define_question_text"></div>
+      </div>
+      <div id="submitFrame"><input id="submitButton" type="submit" value="Submit"></div>
     </div>
-
+    <!--
     <div>
         <div><input type="checkbox" id="generate_one_idea"><label for="generate_one_idea">Generate one idea per each letter</label></div>
     </div>
-    <!--
+    
     <div><button>Prepare New Question</button></div>
     <div><button>Print List of Questions</button></div>
     -->
+    
 </body>
 <script>
+    document.getElementById("hideZoneWild").style.display = "none";
+    document.getElementById("hideZoneAvalanche").style.display = "none";
+    document.getElementById("hideZoneWho").style.display = "none";
+    document.getElementById("hideZoneSolved").style.display = "none";
+    /*document.getElementById("submitFrame").style.display = "none";*/
+
     function sendData() {
         document.getElementById("pOutput").innerHTML = "processing...";
         let input = document.getElementById("userquestion").value;
@@ -235,11 +320,14 @@
   
     function hideDivs() {
       data = document.getElementById("my_workshop").value;
+      document.getElementById("hideZoneWild").style.display = "none";
       document.getElementById("hideZoneAvalanche").style.display = "none";
       document.getElementById("hideZoneWho").style.display = "none";
       document.getElementById("hideZoneSolved").style.display = "none";
       if (data == 1) {
           document.getElementById("hideZoneWho").style.display = "block";
+      } else if (data == 0) {
+          document.getElementById("hideZoneWild").style.display = "block";
       } else if (data == 2) {
           document.getElementById("hideZoneAvalanche").style.display = "block";
       } else if (data == 3) {

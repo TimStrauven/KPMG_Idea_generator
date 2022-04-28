@@ -1,4 +1,5 @@
 import os
+import string
 
 
 class Preprocessing():
@@ -21,7 +22,7 @@ class Preprocessing():
     def process_hmw(self) -> str:
         """
         A Function that prepares usable question for GPT-3
-        for the "How might we..?" workshops
+        for the "How might X..?" workshops
         """
         # TODO update for json from save facilitator status (wait for Fortuné)
         with open("./data/facilitator_status.txt", "r") as f:
@@ -49,6 +50,21 @@ class Preprocessing():
         """
         return self._process_text("", "")
 
+    def process_avalanche(self) -> list:
+        """
+        A Function that prepares usable question for GPT-3
+        for the "Ideas Avalanche" workshops
+        """
+        text_list = []
+        for letter in string.ascii_lowercase:
+            text = f"Give an idea starting with the letter: {letter} about this topic:"
+            append_text = self._process_text(text, "")
+            text_list.append(append_text)
+
+        # TODO needs to be completed with option to select a single letter
+
+        return self._process_text(text_list)
+
     def process_crazy_text(self) -> str:
         return self._process_text("Give a completely crazy new idea for this topic:", "")
 
@@ -59,8 +75,8 @@ class Preprocessing():
         problem = self.input_data
         if not problem:
             raise ValueError(" Please enter your text")
-        if len(problem) <= 50:
+        if len(problem) <= 200:
             self.output_data = f"{start_text} {problem} {end_text}"
         else:
-            raise ValueError("Too long! Only 50 characters allowed!")
+            raise ValueError("Too long! Only 200 characters allowed!")
         return self.output_data

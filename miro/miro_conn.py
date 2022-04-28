@@ -28,12 +28,15 @@ def get_last_sticky_pos() -> tuple:
     response = requests.request("GET", url, headers=headers)
     max_X = 0
     max_Y = 0
-    for widget in response.json()["data"]:
-        if float(widget["x"]) > max_X:
-            max_X = round(float(widget["x"]))
-        if float(widget["y"]) > max_Y:
-            max_Y = round(float(widget["y"]))
-    return max_X, max_Y
+    if len(response.json()["data"]) > 0:
+        for widget in response.json()["data"]:
+            if float(widget["x"]) > max_X:
+                max_X = round(float(widget["x"]))
+            if float(widget["y"]) > max_Y:
+                max_Y = round(float(widget["y"]))
+        return max_X, max_Y
+    else:
+        return 0, 0
 
 def get_stickies_text() -> list:
     """get the text from 2 random sticky notes on the board and return them in a list"""

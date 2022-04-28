@@ -127,7 +127,12 @@ def text_to_return(text: str, temp: int) -> str:
     #    text = f'{text}. Example:{sticky}'
     text = f'{text}.'
     # Get the text from openai
-    answers = OpenAI_Generator(text, 10).generate_idea()
+    with open('./data/facilitator_status.json') as f:
+        data = f.read()
+    data_json = json.loads(data)
+    number_items = int(data_json["number_idea"])
+    print(f"this is the numb of items {number_items}")
+    answers = OpenAI_Generator(text, int(data_json["number_idea"])).generate_idea()
     # add new sticky note on board
     for answer in answers:
         miro_conn.create_sticky(answer)

@@ -129,7 +129,7 @@
       <span>How might </span>
       <select class="select", id="howMight", name="subject"></select>
       <span class="tip" id="problem">save the polar bears?</span>
-      <div><button id="submitbtnAvalanche" class="button button-primary">GO!</button></div>
+      <div><button id="submitbtnHowMight" class="button button-primary">GO!</button></div>
     </div>
     <div class="tip" id="hidezone2">
       <p>Avalanche generates one idea about the topic per each letter of the alphabet</p>
@@ -138,8 +138,8 @@
     </div>
     <div class="tip" id="hidezone3">
       <p>What is the worst possible idea about:</p>
-      <input class="input" id="userquestion" type="text" placeholder="Please enter your question..."/>
-      <button id="submitbtn" class="button button-primary">GO!</button>
+      <input class="input" id="userquestionWorst" type="text" placeholder="Please enter your question..."/>
+      <button id="submitbtnWorst" class="button button-primary">GO!</button>
     </div>
     <div class="normal-text">
         <p id="pOutput">.</p>
@@ -167,6 +167,54 @@
     document
         .getElementById("submitbtn")
         .addEventListener("click", () => sendData());
+    
+    function sendDataHowMight() {
+      let hm = "How might "
+      document.getElementById("pOutput").innerHTML = "processing...";
+      let input = document.getElementById("howMight").value;
+      let txt = document.getElementById("problem").innerHTML;
+      let final = hm + input + txt;
+      let form = new FormData();
+      form.append('question', final);
+      form.append('temp', "1");
+      $.ajax({
+          type: 'POST',
+          url: '/str-to-gpt', //now that we have '/avalanche' should we add something?
+          data: form,
+          cache: false,
+          processData: false,
+          contentType: false
+      }).done(function(data) {
+          document.getElementById("pOutput").innerHTML = data;
+      });
+    }
+    document
+        .getElementById("submitbtnHowMight")
+        .addEventListener("click", () => sendDataHowMight());
+
+
+    function sendDataWorst() {
+      let hm = "What is the worst possible idea about:"
+      document.getElementById("pOutput").innerHTML = "processing...";
+      let input = document.getElementById("userquestionWorst").value;
+      let final = hm + input;
+      let form = new FormData();
+      form.append('question', final);
+      form.append('temp', "1");
+      $.ajax({
+          type: 'POST',
+          url: '/str-to-gpt', //now that we have '/avalanche' should we add something?
+          data: form,
+          cache: false,
+          processData: false,
+          contentType: false
+      }).done(function(data) {
+          document.getElementById("pOutput").innerHTML = data;
+      });
+    }
+    document
+        .getElementById("submitbtnWorst")
+        .addEventListener("click", () => sendDataWorst());
 
     function sendAvalanche() {
         document.getElementById("pOutput").innerHTML = "processing...";

@@ -127,7 +127,7 @@
     </div>
     <div class="tip" id="hidezone1">
       <span>How might </span>
-      <select class="select", id="subject", name="subject"></select>
+      <select class="select", id="howMight", name="subject"></select>
       <span class="tip" id="problem">save the polar bears?</span>
     </div>
     <div class="tip" id="hidezone2">
@@ -272,17 +272,26 @@
         }).done(function(data) {
           hideDivs(parseInt(data["workshop"]));
           document.getElementById("avalancheTopic").innerHTML = data["question_text"];
+          if(document.getElementById("howMight").options.length == 0){
+            if(data["problem1"] == "true") {
+              udateList(data["problem1_txt"], 1);
+            }
+            if(data["problem2"] == "true") {
+              udateList(data["problem2_txt"], 1);
+            }
+            if(data["problem3"] == "true") {
+              udateList(data["problem3_txt"], 1);
+            }
+            udateList(data["my_text_input_1"], 1);
+          }
         });
     };
 
-  
     function udateList(data,i){
-
       var opt = document.createElement('option');
       opt.value = i;
       opt.innerHTML = data;
-      select.appendChild(opt);
-      
+      document.getElementById("howMight").appendChild(opt);
     }
   </script>
 </html>

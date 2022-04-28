@@ -210,16 +210,16 @@
       <div><p>Who is solving this problem:</p></div>
       <div>
           <input type="checkbox" id="my_input_1">
-          <label for="my_input_1">Disney</label>
+          <label id="my_input_1_txt" for="my_input_1">Disney</label>
       </div>
 
       <div>
           <input type="checkbox" id="my_input_2">
-          <label for="my_input_2">Trump</label>
+          <label id="my_input_2_txt" for="my_input_2">Trump</label>
       </div>
       <div>
           <input type="checkbox" id="my_input_3">
-          <label for="my_input_3">Mother theresa</label>
+          <label id="my_input_3_txt" for="my_input_3">Mother theresa</label>
       </div>
       <div><input type="text" id="my_text_input_1" placeholder="Enter free text"></div>
       <div><p>Number of ideas</p></div>
@@ -284,10 +284,13 @@
       let input_number_idea = document.getElementById("setting3").value;
       let input_normal = document.getElementById("my_radiobutton_1").value;
       let input_crazy = document.getElementById("my_radiobutton_2").value;
-      let input_solving_problem1 = document.getElementById("my_input_1").value;
-      let input_solving_problem2 = document.getElementById("my_input_2").value;
-      let input_solving_problem3 = document.getElementById("my_input_3").value;
-      let input_free_text_problem = document.getElementById("my_text_input_1").value;
+      let input_solving_problem1_txt = document.getElementById("my_input_1_txt").innerText;
+      let input_solving_problem2_txt = document.getElementById("my_input_2_txt").innerText;
+      let input_solving_problem3_txt = document.getElementById("my_input_3_txt").innerText;
+      let input_solving_problem1 = document.getElementById("my_input_1").checked;
+      let input_solving_problem2 = document.getElementById("my_input_2").checked;
+      let input_solving_problem3 = document.getElementById("my_input_3").checked;
+      let input_free_text_problem = document.getElementById("my_text_input_1").innerText;
       let input_what_problem_text = document.getElementById("what_problem_text").value;
       let input_define_question_text = document.getElementById("define_question_text").value;
       let input_user_question = document.getElementById("userquestion").value;
@@ -301,6 +304,9 @@
       form.append('problem1', input_solving_problem1);
       form.append('problem2', input_solving_problem2);
       form.append('problem3', input_solving_problem3);
+      form.append('problem1_txt', input_solving_problem1_txt);
+      form.append('problem2_txt', input_solving_problem2_txt);
+      form.append('problem3_txt', input_solving_problem3_txt);
       form.append('text_problem', input_free_text_problem);
       form.append('what_problem', input_what_problem_text);
       form.append('question_text', input_define_question_text);

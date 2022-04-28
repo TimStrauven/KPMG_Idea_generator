@@ -1,4 +1,6 @@
 import os
+from string import ascii_lowercase
+
 
 
 class Preprocessing():
@@ -21,9 +23,9 @@ class Preprocessing():
     def process_hmw(self) -> str:
         """
         A Function that prepares usable question for GPT-3
-        for the "How might we..?" workshops
+        for the "How might X..?" workshops
         """
-        return self._process_text("How might we", "?")
+        return self._process_text("How might", "?")
 
     def process_opposite(self) -> str:
         """
@@ -46,6 +48,20 @@ class Preprocessing():
         """
         return self._process_text("", "")
 
+    def process_avalanche(self) -> list:
+        """
+        A Function that prepares usable question for GPT-3
+        for the "Ideas Avalanche" workshops
+        """
+        text_list = []
+        for letter in ascii_lowercase:
+            text = f"Give an idea starting with the letter: {letter} about this topic:"
+            text_list.append(self._process_text(text,""))
+
+        # TODO needs to be completed with option to select a single letter
+
+            return self._process_text(text_list)
+
     def process_crazy_text(self) -> str:
         return self._process_text("Give a completely crazy new idea for this topic:", "")
 
@@ -61,3 +77,6 @@ class Preprocessing():
         else:
             raise ValueError("Too long! Only 50 characters allowed!")
         return self.output_data
+
+
+

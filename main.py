@@ -66,11 +66,12 @@ def avalanche_post() -> str:
     print(question)
     preprocessor = Preprocessing(question)
     text_list = preprocessor.process_avalanche()
+    print(text_list)
     for idea in text_list:
         # Get the text from openai
         answer = OpenAI_Generator(idea, 1).generate_idea()
         # add new sticky note on board
-        miro_conn.create_sticky(answer)
+        miro_conn.create_sticky(answer[0])
         # TODO needs to be completed with option to select a single letter
     return "done"
 

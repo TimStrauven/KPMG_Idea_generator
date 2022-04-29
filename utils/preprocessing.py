@@ -57,13 +57,13 @@ class Preprocessing():
         """
         text_list = []
         for letter in string.ascii_lowercase:
-            text = f"Give an idea starting with the letter: {letter} about this topic:"
+            text = f"Give an idea starting with the letter: {letter}, about this topic:"
             append_text = self._process_text(text, "")
             text_list.append(append_text)
 
         # TODO needs to be completed with option to select a single letter
 
-        return self._process_text(text_list)
+        return text_list
 
     def process_crazy_text(self) -> str:
         return self._process_text("Give a completely crazy new idea for this topic:", "")
